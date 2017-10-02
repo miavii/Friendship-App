@@ -60,3 +60,9 @@ export const ProfileIconCard = styled.View`
 `;
 
 export const MessageContent = styled.View`flex: 4;`;
+
+export const SignUpWrapper = styled.View`
+  flex: 1;
+  background-color: #faf6f0;
+  align-items: center;
+`;
