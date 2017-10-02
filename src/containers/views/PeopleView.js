@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FlatList } from 'react-native';
+import { FlatList, TouchableOpacity, Text } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import { SearchBar } from 'react-native-elements';
 import { Title } from '../../components/Text';
 import {
@@ -13,6 +14,14 @@ import Person from '../../components/Person';
 import Spinner from '../../components/Spinner';
 
 const mapStateToProps = state => ({});
+const mapDispatchToProps = dispatch => ({
+  openSearchTag: () =>
+    dispatch(
+      NavigationActions.navigate({
+        routeName: 'SearchList',
+      }),
+    ),
+});
 
 export class PeopleView extends React.Component {
   static navigationOptions = {
@@ -35,7 +44,7 @@ export class PeopleView extends React.Component {
   };
 
   keyExtractor = item => item.id;
-  renderItem = ({ item }) => <Person color="#939795" data={item} />;
+  renderItem = ({ item }) => <Person box data={item} />;
 
   componentDidMount() {
     this.fetchData();
@@ -110,9 +119,11 @@ export class PeopleView extends React.Component {
       <FullscreenCentered>
         <FlatList
           data={
-            this.state.searchedUsername.length > 0
-              ? this.state.filteredUsers
-              : this.state.data
+            this.state.searchedUsername.length > 0 ? (
+              this.state.filteredUsers
+            ) : (
+              this.state.data
+            )
           }
           keyExtractor={this.keyExtractor}
           renderItem={this.renderItem}
@@ -124,8 +135,11 @@ export class PeopleView extends React.Component {
         />
         {this.renderSpinner()}
       </FullscreenCentered>
+      <TouchableOpacity onPress={() => this.props.openSearchTag()}>
+        <Text>LINK TO TAGS</Text>
+      </TouchableOpacity>
     </ViewContainer>
   );
 }
 
-export default connect(undefined)(PeopleView);
+export default connect(mapStateToProps, mapDispatchToProps)(PeopleView);

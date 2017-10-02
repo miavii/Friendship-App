@@ -18,7 +18,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class Person extends React.Component {
-  render = () => (
+  renderBox = () => (
     <View style={styles.topPart}>
       <View style={{ flex: 70 }}>
         <Text style={styles.topText}>{this.props.data.description}</Text>
@@ -51,7 +51,31 @@ class Person extends React.Component {
       </FlexRow>
     </View>
   );
+
+  renderLine = () => (
+    <FlexRow style={styles.listItem}>
+      {/* with flex:1 long username don't go exceed the bottom part  */}
+      <View style={styles.viewBottom}>
+        <View>
+          <Text style={styles.emoji}>{this.props.data.emoji}</Text>
+        </View>
+
+        <TouchableOpacity
+          style={styles.nameView}
+          onPress={() => this.props.openProfile(this.props.data.id)}
+        >
+          <Text style={styles.TextName}>
+            {this.props.data.username} {this.props.data.love ? '<3' : '</3'}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </FlexRow>
+  );
+
+  render = () => (this.props.box ? this.renderBox() : this.renderLine());
 }
+
+class PersonListItem extends React.Component {}
 
 const styles = StyleSheet.create({
   viewBottom: {
@@ -82,7 +106,7 @@ const styles = StyleSheet.create({
 
   topText: {
     color: 'white',
-    marginTop: 5,
+    marginTop: 0,
     marginLeft: 10,
     fontSize: 18,
     /*    fontFamily: 'Avenir', */
@@ -109,6 +133,17 @@ const styles = StyleSheet.create({
     fontSize: 47,
     alignItems: 'center',
   },
+  listItem: {
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    margin: 0,
+    height: 70,
+    borderWidth: 0.5,
+    borderColor: '#666666',
+    backgroundColor: '#fff',
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Person);
+export { PersonListItem };
