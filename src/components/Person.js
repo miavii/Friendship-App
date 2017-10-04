@@ -75,8 +75,6 @@ class Person extends React.Component {
   render = () => (this.props.box ? this.renderBox() : this.renderLine());
 }
 
-class PersonListItem extends React.Component {}
-
 const styles = StyleSheet.create({
   viewBottom: {
     flexDirection: 'row',
@@ -146,4 +144,3 @@ const styles = StyleSheet.create({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Person);
-export { PersonListItem };
