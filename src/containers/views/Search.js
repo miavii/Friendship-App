@@ -29,13 +29,13 @@ class SearchList extends React.Component {
     title: 'Search for users with tag 4',
   };
 
-  state = { data: {}, tagId: 4 };
+  state = { data: {}, tagId: this.props.navigation.state.params.tagId };
 
-  keyExtractor = item => item.id;
+  keyExtractor = item => item.userId;
   renderItem = ({ item }) => <Person data={item} />;
 
   componentDidMount() {
-    fetch('http://0.0.0.0:3888/user_topic/topic/' + this.state.tagId, {
+    fetch('http://0.0.0.0:3888/tag_user/tag/' + this.state.tagId, {
       method: 'get',
       headers: {
         Authorization:
@@ -51,7 +51,7 @@ class SearchList extends React.Component {
       <FullscreenCentered>
         <FlatList
           data={this.state.data}
-          keyExtractor={(x, i) => i}
+          keyExtractor={this.keyExtractor}
           renderItem={this.renderItem}
           // onEndReached={this.handleEnd}
           // onEndReachedThreshold={0.4}

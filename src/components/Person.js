@@ -62,7 +62,7 @@ class Person extends React.Component {
 
         <TouchableOpacity
           style={styles.nameView}
-          onPress={() => this.props.openProfile(this.props.data.id)}
+          onPress={() => this.props.openProfile(this.props.data.userId)}
         >
           <Text style={styles.TextName}>
             {this.props.data.username} {this.props.data.love ? '<3' : '</3'}

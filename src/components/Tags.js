@@ -8,10 +8,10 @@ import styled from 'styled-components/native';
 
 const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
-  openTag: tagId =>
+  openSearchTag: tagId =>
     dispatch(
       NavigationActions.navigate({
-        routeName: 'ProfileUser',
+        routeName: 'SearchList',
         params: { tagId },
       }),
     ),
@@ -20,11 +20,37 @@ const mapDispatchToProps = dispatch => ({
 class Tag extends React.Component {
   render = () => (
     <TouchableOpacity
+      style={(styles.tagButton, styles.rectangle)}
       onPress={() => this.props.openSearchTag(this.props.data.id)}
     >
-      <Text>{this.props.data.name}</Text>
+      <Text style={styles.item}>{this.props.data.name}</Text>
     </TouchableOpacity>
   );
 }
-
+const styles = StyleSheet.create({
+  rectangle: {
+    padding: 10,
+    display: 'inline-block',
+    height: 39,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 76,
+    backgroundColor: '#87df91',
+  },
+  item: {
+    height: 19,
+    // fontFamily: "NunitoSans",
+    fontSize: 14,
+    fontWeight: '600',
+    letterSpacing: 0.43,
+    textAlign: 'center',
+    color: '#2d4359',
+  },
+  nameView: {
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    flex: 60,
+  },
+});
 export default connect(mapStateToProps, mapDispatchToProps)(Tag);

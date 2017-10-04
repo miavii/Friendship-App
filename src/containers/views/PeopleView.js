@@ -1,6 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FlatList, TouchableOpacity, Text } from 'react-native';
+import {
+  View,
+  ScrollView,
+  FlatList,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { SearchBar } from 'react-native-elements';
 import { Title } from '../../components/Text';
@@ -49,7 +56,7 @@ export class PeopleView extends React.Component {
   renderItem = ({ item }) => <Person box data={item} />;
 
   tagKeyExtractor = item => item.id;
-  tagRenderItem = ({ item }) => <Tag box data={item} />;
+  tagRenderItem = ({ item }) => <Tag data={item} />;
 
   componentDidMount() {
     this.fetchData();
@@ -106,10 +113,16 @@ export class PeopleView extends React.Component {
       .then(filteredUsers => this.setState({ filteredUsers }));
   }
 
+  renderSpinner() {
+    if (this.state.loading) {
+      return <Spinner fullflex={this.state.data.length === 0} />;
+    }
+  }
+
   fetchTags = async () => {
     // this.setState({ loading: true });
 
-    fetch(`http://0.0.0.0:3888/topics`, {
+    fetch(`http://0.0.0.0:3888/tags`, {
       method: 'get',
       headers: {
         Authorization:
@@ -152,10 +165,15 @@ export class PeopleView extends React.Component {
           horizontal
         />
         {this.renderSpinner()}
-        <TouchableOpacity onPress={() => this.props.openSearchTag()}>
-          <Text>LINK TO TAGS</Text>
-        </TouchableOpacity>
-        <FlatList
+      </FullscreenCentered>
+
+      <Title> Tags </Title>
+      <FullscreenCentered>
+        <View style={styles.tagList}>
+          {this.state.tags.map(tag => <Tag key={tag.id} data={tag} />)}
+          {/* <FlatList
+          style={styles.tagList}
+          contentContainerStyle={styles.tagList}
           data={this.state.tags}
           keyExtractor={this.tagKeyExtractor}
           renderItem={this.tagRenderItem}
@@ -163,10 +181,19 @@ export class PeopleView extends React.Component {
           // onEndReachedThreshold={0.4}
           // style={{ flex: 1 }}
           //ListFooterComponent= {() => <ActivityIndicator animating size= 'small'/>}
-        />
+        /> */}
+        </View>
       </FullscreenCentered>
     </ViewContainer>
   );
 }
 
+const styles = StyleSheet.create({
+  tagList: {
+    margin: 22,
+    flexWrap: 'wrap',
+    //alignItems: 'flex-start',
+    flexDirection: 'row',
+  },
+});
 export default connect(mapStateToProps, mapDispatchToProps)(PeopleView);
