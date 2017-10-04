@@ -11,6 +11,7 @@ import {
   IconImage,
 } from '../../components/Layout';
 import Person from '../../components/Person';
+import Tag from '../../components/Tags';
 import Spinner from '../../components/Spinner';
 
 const mapStateToProps = state => ({});
@@ -36,6 +37,7 @@ export class PeopleView extends React.Component {
 
   state = {
     data: [],
+    tags: [],
     page: 0,
     loading: false,
     filteredUsers: [],
@@ -46,8 +48,12 @@ export class PeopleView extends React.Component {
   keyExtractor = item => item.id;
   renderItem = ({ item }) => <Person box data={item} />;
 
+  tagKeyExtractor = item => item.id;
+  tagRenderItem = ({ item }) => <Tag box data={item} />;
+
   componentDidMount() {
     this.fetchData();
+    this.fetchTags();
   }
 
   fetchData = async () => {
@@ -100,11 +106,23 @@ export class PeopleView extends React.Component {
       .then(filteredUsers => this.setState({ filteredUsers }));
   }
 
-  renderSpinner() {
-    if (this.state.loading) {
-      return <Spinner fullflex={this.state.data.length === 0} />;
-    }
-  }
+  fetchTags = async () => {
+    // this.setState({ loading: true });
+
+    fetch(`http://0.0.0.0:3888/topics`, {
+      method: 'get',
+      headers: {
+        Authorization:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJmb29AYmFyLmNvbSIsInNjb3BlIjoidXNlciIsImlhdCI6MTUwNDg2NDg0OH0.jk2cvlueBJTWuGB0VMjYnbUApoDua_8FrzogDXzz9iY',
+      },
+    })
+      .then(response => response.json())
+      .then(tags => this.setState({ tags }));
+    // renderSpinner() {
+    //   if (this.state.loading) {
+    //     return <Spinner fullflex={this.state.data.length === 0} />;
+    //   }
+  };
 
   render = () => (
     <ViewContainer>
@@ -134,10 +152,19 @@ export class PeopleView extends React.Component {
           horizontal
         />
         {this.renderSpinner()}
+        <TouchableOpacity onPress={() => this.props.openSearchTag()}>
+          <Text>LINK TO TAGS</Text>
+        </TouchableOpacity>
+        <FlatList
+          data={this.state.tags}
+          keyExtractor={this.tagKeyExtractor}
+          renderItem={this.tagRenderItem}
+          // onEndReached={this.handleEnd}
+          // onEndReachedThreshold={0.4}
+          // style={{ flex: 1 }}
+          //ListFooterComponent= {() => <ActivityIndicator animating size= 'small'/>}
+        />
       </FullscreenCentered>
-      <TouchableOpacity onPress={() => this.props.openSearchTag()}>
-        <Text>LINK TO TAGS</Text>
-      </TouchableOpacity>
     </ViewContainer>
   );
 }

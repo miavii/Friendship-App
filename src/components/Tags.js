@@ -12,7 +12,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(
       NavigationActions.navigate({
         routeName: 'ProfileUser',
-        params: { personId },
+        params: { tagId },
       }),
     ),
 });
@@ -22,7 +22,7 @@ class Tag extends React.Component {
     <TouchableOpacity
       onPress={() => this.props.openSearchTag(this.props.data.id)}
     >
-      <Text>{this.props.data.username}</Text>
+      <Text>{this.props.data.name}</Text>
     </TouchableOpacity>
   );
 }
