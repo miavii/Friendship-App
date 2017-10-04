@@ -30,6 +30,9 @@ class Tag extends React.Component {
 const styles = StyleSheet.create({
   rectangle: {
     padding: 10,
+    marginTop: 5,
+    marginBottom: 5,
+    marginRight: 7,
     display: 'inline-block',
     height: 39,
     borderColor: 'black',
@@ -38,8 +41,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#87df91',
   },
   item: {
-    height: 19,
+    height: 20,
     // fontFamily: "NunitoSans",
+    paddingRight: 10,
+    paddingLeft: 10,
     fontSize: 14,
     fontWeight: '600',
     letterSpacing: 0.43,
